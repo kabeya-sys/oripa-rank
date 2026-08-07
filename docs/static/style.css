@@ -1,0 +1,88 @@
+/* オリパランク 共通スタイル */
+:root{
+  --navy:#1f3a6e; --navy-d:#0f244a; --gold:#f7d77a; --bg:#fbf9f4;
+  --ink:#2b2b2b; --sub:#6e6a61; --line:#e3ddcf; --red:#d92e00; --marker:#ffe066;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  color:var(--ink);background:#fff;line-height:1.9;font-size:16px;-webkit-text-size-adjust:100%}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+a{color:var(--navy)}
+img{max-width:100%;height:auto}
+
+/* header */
+.site-header{background:linear-gradient(135deg,var(--navy),var(--navy-d));padding:14px 0}
+.site-header .wrap{display:flex;justify-content:space-between;align-items:center}
+.logo{color:var(--gold);font-weight:800;font-size:20px;text-decoration:none;letter-spacing:.04em}
+.gnav a{color:#fff;font-size:13px;text-decoration:none;margin-left:14px}
+.pr-note{font-size:11px;color:var(--sub);background:var(--bg);text-align:center;padding:4px 8px}
+
+/* hero */
+.hero{background:var(--bg);border:1px solid var(--line);border-radius:12px;margin:22px 0;padding:28px 20px;text-align:center}
+.hero h1{font-size:24px;line-height:1.5;color:var(--navy-d)}
+.hero p{font-size:14px;color:var(--sub);margin:12px 0 16px}
+.hero-cta{display:inline-block;background:var(--red);color:#fff;font-weight:800;text-decoration:none;
+  padding:13px 26px;border-radius:999px;box-shadow:0 3px 10px rgba(217,46,0,.3)}
+
+/* article list */
+.list h2{font-size:20px;color:var(--navy-d);margin:26px 0 12px;border-left:5px solid var(--gold);padding-left:10px}
+.cards{display:flex;flex-direction:column;gap:12px;margin-bottom:34px}
+.card{display:block;border:1px solid var(--line);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--ink)}
+.card:hover{background:var(--bg)}
+.card-date{font-size:11px;color:var(--sub)}
+.card-title{font-weight:800;color:var(--navy);font-size:16px;margin:2px 0 4px;line-height:1.5}
+.card-desc{font-size:13px;color:var(--sub);line-height:1.6}
+
+/* article */
+.article{margin:24px 0 40px}
+.article h1{font-size:24px;line-height:1.5;color:var(--navy-d);margin-bottom:8px}
+.article .meta{font-size:12px;color:var(--sub);margin-bottom:18px}
+.article h2{font-size:20px;color:var(--navy-d);background:var(--bg);border-left:5px solid var(--gold);
+  padding:9px 12px;border-radius:4px;margin:34px 0 14px;line-height:1.5}
+.article h3{font-size:17px;color:var(--navy);margin:26px 0 10px;padding-bottom:5px;border-bottom:2px solid var(--line)}
+.article p{margin:0 0 16px}
+.article ul,.article ol{margin:0 0 16px;padding-left:24px}
+.article li{margin-bottom:6px}
+.article strong{background:linear-gradient(transparent 65%,var(--marker) 65%);padding:0 1px}
+.article hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+figure{margin:16px 0;text-align:center}
+figure img{border-radius:8px;border:1px solid var(--line)}
+
+/* toc */
+.toc{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:0 0 24px}
+.toc-title{font-weight:800;font-size:14px;color:var(--navy-d);margin-bottom:6px}
+.toc ol{margin:0;padding-left:22px;font-size:14px}
+.toc a{text-decoration:none}
+
+/* boxes */
+.box{border-radius:10px;padding:14px 16px;margin:0 0 18px;font-size:14.5px}
+.box p{margin-bottom:8px}
+.box p:last-child{margin-bottom:0}
+.box-note{background:var(--bg);border:1px solid var(--line);color:var(--sub);font-size:12.5px}
+.box-warn{background:#fdeaea;border:1px solid #f0c0b8}
+.box-author{background:#eef3fb;border:1px solid #c9d8ef;position:relative;padding-top:34px}
+.author-label{position:absolute;top:0;left:0;background:var(--navy);color:#fff;font-size:11px;font-weight:800;
+  padding:3px 12px;border-radius:10px 0 10px 0}
+
+/* table */
+.tbl-wrap{overflow-x:auto;margin:0 0 18px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;line-height:1.6}
+th{background:var(--bg);color:var(--navy-d);white-space:nowrap}
+
+/* cta box（LP誘導） */
+.cta-lp{display:block;background:linear-gradient(135deg,var(--navy),var(--navy-d));border-radius:12px;
+  padding:20px;text-align:center;margin:26px 0;text-decoration:none}
+.cta-lp .c-catch{color:var(--gold);font-weight:800;font-size:15px;display:block;margin-bottom:10px}
+.cta-lp .c-btn{display:inline-block;background:var(--red);color:#fff;font-weight:800;
+  padding:12px 24px;border-radius:999px;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+
+/* author box */
+.author-box{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-top:34px;font-size:13.5px}
+.ab-name{font-weight:800;color:var(--navy-d);margin-bottom:6px}
+
+/* footer */
+.site-footer{background:var(--bg);border-top:1px solid var(--line);margin-top:30px;padding:22px 0 30px}
+.f-links{font-size:13px;margin-bottom:10px}
+.f-note{font-size:11px;color:var(--sub);line-height:1.7;margin-bottom:6px}
+.copy{font-size:12px;color:var(--sub);margin-top:10px}
