@@ -1,4 +1,4 @@
-/* オリパランク 共通スタイル */
+/* オリパ比較ナビ 共通スタイル */
 :root{
   --navy:#1f3a6e; --navy-d:#0f244a; --gold:#f7d77a; --bg:#fbf9f4;
   --ink:#2b2b2b; --sub:#6e6a61; --line:#e3ddcf; --red:#d92e00; --marker:#ffe066;
@@ -78,7 +78,9 @@ th{background:var(--bg);color:var(--navy-d);white-space:nowrap}
   padding:12px 24px;border-radius:999px;box-shadow:0 3px 10px rgba(0,0,0,.25)}
 
 /* author box */
-.author-box{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-top:34px;font-size:13.5px}
+.author-box{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-top:34px;font-size:13.5px;
+  display:flex;gap:14px;align-items:flex-start}
+.ab-icon{width:64px;height:64px;border-radius:50%;border:2px solid var(--gold);flex:none}
 .ab-name{font-weight:800;color:var(--navy-d);margin-bottom:6px}
 
 /* footer */

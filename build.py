@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""オリパランク（oripa-rank.jp）静的サイトビルダー。
+"""オリパ比較ナビ（oripa-rank.jp）静的サイトビルダー。
 
 外部依存ゼロ。content/ の Markdown（サブセット）を templates/ で HTML 化し
 docs/ に出力する。GitHub Pages は docs/ を配信する。
@@ -16,7 +16,7 @@ CONTENT = os.path.join(ROOT, "content")
 TPL = os.path.join(ROOT, "templates")
 OUT = os.path.join(ROOT, "docs")
 SITE = "https://oripa-rank.jp"
-SITE_NAME = "オリパランク"
+SITE_NAME = "オリパ比較ナビ"
 AUTHOR = "オリパ研究家 ユウジ"
 
 
@@ -199,9 +199,12 @@ def build():
                      title=html.escape(meta["title"]),
                      date=jp_date(meta["date"]), updated=jp_date(upd),
                      toc=toc_html, content=body_html, site=SITE_NAME)
+        extra = article_jsonld(meta, path)
+        if "hero" in meta:
+            extra = f'<meta property="og:image" content="{SITE}{meta["hero"]}">\n' + extra
         doc = page(art, title=f'{meta["title"]}｜{SITE_NAME}',
                    description=meta["description"], path=path,
-                   extra_head=article_jsonld(meta, path))
+                   extra_head=extra)
         d = os.path.join(OUT, "articles", meta["slug"])
         os.makedirs(d, exist_ok=True)
         open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(doc)

@@ -1,4 +1,4 @@
-# オリパランク（oripa-rank.jp）SEO記事サイト
+# オリパ比較ナビ（oripa-rank.jp）SEO記事サイト
 
 静的サイト。`content/` のMarkdownを `build.py` が `docs/` にHTML出力し、GitHub Pagesが `docs/` を配信する。**外部依存ゼロ**（システムのpython3だけで動く）。
 
@@ -57,7 +57,7 @@ draft: false          ← trueで非公開（ビルド対象外）
 
 ## 構造化データ
 
-記事ページに Article + BreadcrumbList のJSON-LDを自動出力。著者=オリパ研究家 ユウジ（Person）、発行者=オリパランク（Organization）。
+記事ページに Article + BreadcrumbList のJSON-LDを自動出力。著者=オリパ研究家 ユウジ（Person）、発行者=オリパ比較ナビ（Organization）。
 
 ## ロードマップ
 
