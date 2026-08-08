@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""オリパ比較ナビ（oripa-rank.jp）静的サイトビルダー。
+"""オリパ情報局（oripa-rank.jp）静的サイトビルダー。
 
 外部依存ゼロ。content/ の Markdown（サブセット）を templates/ で HTML 化し
 docs/ に出力する。GitHub Pages は docs/ を配信する。
@@ -16,7 +16,7 @@ CONTENT = os.path.join(ROOT, "content")
 TPL = os.path.join(ROOT, "templates")
 OUT = os.path.join(ROOT, "docs")
 SITE = "https://oripa-rank.jp"
-SITE_NAME = "オリパ比較ナビ"
+SITE_NAME = "オリパ情報局"
 AUTHOR = "オリパ研究家 ユウジ"
 
 
