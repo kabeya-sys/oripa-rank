@@ -77,10 +77,16 @@ def md2html(md):
                                    f'<span class="c-btn">{html.escape(m.group(1))}</span></a>')
                 i += 1; continue
             if in_note:
-                out.append("</div>"); in_note = None
+                out.append("</div></div>" if in_note == "author" else "</div>")
+                in_note = None
             elif tag in ("note", "warn", "author"):
-                label = {"note": "", "warn": "", "author": '<span class="author-label">筆者</span>'}[tag]
-                out.append(f'<div class="box box-{tag}">{label}')
+                if tag == "author":
+                    # LPと同じ見せ方: 丸アイコン＋吹き出し
+                    out.append('<div class="box box-author">'
+                               '<img class="ba-icon" src="/static/img/author.webp" alt="筆者ユウジ" width="96" height="96" loading="lazy">'
+                               '<div class="ba-bubble"><p class="ba-name">筆者ユウジ</p>')
+                else:
+                    out.append(f'<div class="box box-{tag}">')
                 in_note = tag
             i += 1; continue
         if s.startswith("## "):
@@ -126,7 +132,8 @@ def md2html(md):
             out.append(f"<p>{inline(s)}</p>")
         i += 1
     close_lists()
-    if in_note: out.append("</div>")
+    if in_note:
+        out.append("</div></div>" if in_note == "author" else "</div>")
     return "\n".join(out), toc
 
 
@@ -143,11 +150,23 @@ def render(template, **kw):
     return template
 
 
+def css_version():
+    import hashlib
+    with open(os.path.join(ROOT, "static", "style.css"), "rb") as f:
+        return hashlib.md5(f.read()).hexdigest()[:8]
+
+
+CSSV = None
+
+
 def page(body, *, title, description, path, extra_head="", h1_in_body=True):
+    global CSSV
+    if CSSV is None:
+        CSSV = css_version()
     return render(tpl("base.html"),
                   title=title, description=html.escape(description, quote=True),
                   canonical=SITE + path, body=body, extra_head=extra_head,
-                  year=str(datetime.date.today().year), site=SITE_NAME)
+                  year=str(datetime.date.today().year), site=SITE_NAME, cssv=CSSV)
 
 
 # ---------- articles ----------

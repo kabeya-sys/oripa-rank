@@ -60,9 +60,10 @@ figure img{border-radius:8px;border:1px solid var(--line)}
 .box p:last-child{margin-bottom:0}
 .box-note{background:var(--bg);border:1px solid var(--line);color:var(--sub);font-size:12.5px}
 .box-warn{background:#fdeaea;border:1px solid #f0c0b8}
-.box-author{background:#eef3fb;border:1px solid #c9d8ef;position:relative;padding-top:34px}
-.author-label{position:absolute;top:0;left:0;background:var(--navy);color:#fff;font-size:11px;font-weight:800;
-  padding:3px 12px;border-radius:10px 0 10px 0}
+.box-author{background:transparent;border:none;padding:4px 0;display:flex;gap:10px;align-items:flex-start}
+.ba-icon{width:52px;height:52px;border-radius:50%;border:2px solid var(--gold);flex:none;margin-top:2px}
+.ba-bubble{background:#eef3fb;border:1px solid #c9d8ef;border-radius:2px 12px 12px 12px;padding:10px 14px;flex:1}
+.ba-name{font-size:11px;font-weight:800;color:var(--navy);margin-bottom:4px}
 
 /* table */
 .tbl-wrap{overflow-x:auto;margin:0 0 18px}
