@@ -58,9 +58,24 @@ def md2html(md):
     while i < len(lines):
         ln = lines[i]
         s = ln.strip()
-        if s.startswith(":::"):  # :::note / :::author / :::
+        if s.startswith(":::"):  # :::note / :::author / :::warn / :::cta / :::
             close_lists()
             tag = s[3:].strip()
+            if tag == "cta":
+                # :::cta 内の2行（キャッチ / [ボタン文言](URL)）をLP誘導ボックスに変換
+                body = []
+                i += 1
+                while i < len(lines) and lines[i].strip() != ":::":
+                    if lines[i].strip():
+                        body.append(lines[i].strip())
+                    i += 1
+                if len(body) >= 2:
+                    m = re.match(r"\[([^\]]+)\]\(([^)]+)\)", body[1])
+                    if m:
+                        out.append(f'<a class="cta-lp" href="{m.group(2)}">'
+                                   f'<span class="c-catch">{inline(body[0])}</span>'
+                                   f'<span class="c-btn">{html.escape(m.group(1))}</span></a>')
+                i += 1; continue
             if in_note:
                 out.append("</div>"); in_note = None
             elif tag in ("note", "warn", "author"):
@@ -173,6 +188,26 @@ def jstr(s):
     return '"' + s.replace('\\', '\\\\').replace('"', '\\"') + '"'
 
 
+def faq_jsonld(body_md):
+    """「## よくある質問」配下の「### 質問」＋回答段落から FAQPage JSON-LD を生成。"""
+    m = re.search(r"^## よくある質問\n(.*?)(?=^## |\Z)", body_md, re.S | re.M)
+    if not m:
+        return ""
+    pairs = re.findall(r"^### (.+?)\n(.*?)(?=^### |\Z)", m.group(1), re.S | re.M)
+    if not pairs:
+        return ""
+    items = []
+    for q, a in pairs:
+        a_txt = re.sub(r":::.*?(:::|$)", "", a, flags=re.S)          # ボックスは除外
+        a_txt = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", a_txt)        # リンクはテキスト化
+        a_txt = re.sub(r"[*#|>-]", "", a_txt)
+        a_txt = " ".join(a_txt.split())
+        items.append(f'{{"@type": "Question", "name": {jstr(q.strip())}, '
+                     f'"acceptedAnswer": {{"@type": "Answer", "text": {jstr(a_txt)}}}}}')
+    return ('<script type="application/ld+json">\n{"@context": "https://schema.org", '
+            '"@type": "FAQPage", "mainEntity": [' + ", ".join(items) + ']}\n</script>')
+
+
 def build():
     if os.path.exists(OUT):
         shutil.rmtree(OUT)
@@ -199,7 +234,7 @@ def build():
                      title=html.escape(meta["title"]),
                      date=jp_date(meta["date"]), updated=jp_date(upd),
                      toc=toc_html, content=body_html, site=SITE_NAME)
-        extra = article_jsonld(meta, path)
+        extra = article_jsonld(meta, path) + faq_jsonld(body_md)
         if "hero" in meta:
             extra = f'<meta property="og:image" content="{SITE}{meta["hero"]}">\n' + extra
         doc = page(art, title=f'{meta["title"]}｜{SITE_NAME}',
