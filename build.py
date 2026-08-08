@@ -163,6 +163,8 @@ def page(body, *, title, description, path, extra_head="", h1_in_body=True):
     global CSSV
     if CSSV is None:
         CSSV = css_version()
+    if "og:image" not in extra_head:
+        extra_head = f'<meta property="og:image" content="{SITE}/static/img/logo.png">\n' + extra_head
     return render(tpl("base.html"),
                   title=title, description=html.escape(description, quote=True),
                   canonical=SITE + path, body=body, extra_head=extra_head,
@@ -249,10 +251,14 @@ def build():
                         + "".join(f'<li><a href="#{hid}">{html.escape(t)}</a></li>' for hid, t in toc)
                         + "</ol></nav>")
         upd = meta.get("updated", meta["date"])
+        fv = ""
+        if "hero" in meta:
+            fv = (f'<figure class="article-fv"><img src="{meta["hero"]}" '
+                  f'alt="{html.escape(meta["title"])}"></figure>')
         art = render(tpl("article.html"),
                      title=html.escape(meta["title"]),
                      date=jp_date(meta["date"]), updated=jp_date(upd),
-                     toc=toc_html, content=body_html, site=SITE_NAME)
+                     fv=fv, toc=toc_html, content=body_html, site=SITE_NAME)
         extra = article_jsonld(meta, path) + faq_jsonld(body_md)
         if "hero" in meta:
             extra = f'<meta property="og:image" content="{SITE}{meta["hero"]}">\n' + extra
