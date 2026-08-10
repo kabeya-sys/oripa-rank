@@ -19,6 +19,13 @@ SITE = "https://oripa-rank.jp"
 SITE_NAME = "オリパ情報局"
 AUTHOR = "オリパ研究家 ユウジ"
 
+# 計測。空文字なら該当タグを出力しない。
+# GA4_ID はSEOサイト専用の測定ID（LP用プロパティとは分離する）。
+# GSC_VERIFY はSearch Consoleの「HTMLタグ」認証トークン（content="..." の中身だけ）。
+# docs/ は毎回作り直すため、GSCのHTMLファイル認証ではなくmetaタグ認証を使う。
+GA4_ID = "G-8N4RWW1SGW"
+GSC_VERIFY = ""   # Search Consoleは別方式で認証済みのため空のまま
+
 
 # ---------- frontmatter ----------
 
@@ -159,6 +166,20 @@ def css_version():
 CSSV = None
 
 
+def head_tags():
+    """GA4とSearch Console認証タグ。IDが未設定なら何も出さない。"""
+    out = []
+    if GSC_VERIFY:
+        out.append(f'<meta name="google-site-verification" content="{GSC_VERIFY}">')
+    if GA4_ID:
+        out.append(f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>')
+        out.append("<script>window.dataLayer=window.dataLayer||[];"
+                   "function gtag(){dataLayer.push(arguments);}"
+                   "gtag('js',new Date());"
+                   f"gtag('config','{GA4_ID}');</script>")
+    return "\n".join(out)
+
+
 def page(body, *, title, description, path, extra_head="", h1_in_body=True):
     global CSSV
     if CSSV is None:
@@ -168,6 +189,7 @@ def page(body, *, title, description, path, extra_head="", h1_in_body=True):
     return render(tpl("base.html"),
                   title=title, description=html.escape(description, quote=True),
                   canonical=SITE + path, body=body, extra_head=extra_head,
+                  analytics=head_tags(),
                   year=str(datetime.date.today().year), site=SITE_NAME, cssv=CSSV)
 
 
