@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<style>
+  :root{--navy:#1f3a6e;--navy-d:#0f244a;--gold:#f7d77a;--red:#d92e00}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1200px;height:630px;overflow:hidden;
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,sans-serif;
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-d) 100%);position:relative}
+  body::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse 900px 500px at 85% -10%,rgba(247,215,122,.18),transparent 60%)}
+  .frame{position:absolute;inset:26px;border:2px solid rgba(247,215,122,.55);border-radius:18px}
+  .logo{position:absolute;top:58px;left:64px;height:56px}
+  .badge{position:absolute;top:64px;right:64px;background:var(--red);color:#fff;
+    font-size:26px;font-weight:800;padding:10px 26px;border-radius:999px}
+  .title{position:absolute;left:64px;right:64px;top:190px;color:#fff;
+    font-size:64px;font-weight:800;line-height:1.42;letter-spacing:.01em}
+  .title em{font-style:normal;color:var(--gold)}
+  .sub{position:absolute;left:64px;bottom:70px;color:rgba(255,255,255,.92);
+    font-size:30px;font-weight:700}
+  .sub b{color:var(--gold)}
+  .icons{position:absolute;right:64px;bottom:58px;display:flex;gap:14px}
+  .icons img{width:86px;height:86px;border-radius:20px;border:3px solid rgba(255,255,255,.9);
+    box-shadow:0 6px 18px rgba(0,0,0,.35);background:#fff;object-fit:cover}
+</style>
+</head>
+<body>
+  <div class="frame"></div>
+  <img class="logo" src="../static/img/logo.png" alt="">
+  <div class="badge">2026年8月最新</div>
+  <div class="title">オリパアプリ<em>徹底比較</em><br>6アプリ<em>横並び</em></div>
+  <div class="sub"><b>912万円</b>課金した研究家が同じ基準で採点</div>
+  <div class="icons">
+    <img src="../static/img/icon-orikuji.png">
+    <img src="../static/img/icon-victore.png">
+    <img src="../static/img/icon-rainbow.webp">
+  </div>
+</body>
+</html>
