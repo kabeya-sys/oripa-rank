@@ -83,6 +83,28 @@ def md2html(md):
                                    f'<span class="c-catch">{inline(body[0])}</span>'
                                    f'<span class="c-btn">{html.escape(m.group(1))}</span></a>')
                 i += 1; continue
+            if tag == "code":
+                # :::code 内の各行「アプリ名|コード|補足(任意)」をコピーボタン付きボックスに変換
+                i += 1
+                while i < len(lines) and lines[i].strip() != ":::":
+                    row = lines[i].strip()
+                    if row:
+                        parts = [p.strip() for p in row.split("|")]
+                        app = html.escape(parts[0])
+                        code = html.escape(parts[1]) if len(parts) > 1 else ""
+                        memo = inline(parts[2]) if len(parts) > 2 else ""
+                        out.append(
+                            f'<div class="ccopy" data-app="{app}">'
+                            f'<p class="cc-app">{app}の招待コード</p>'
+                            f'<div class="cc-row">'
+                            f'<span class="cc-code">{code}</span>'
+                            f'<button class="cc-btn" type="button" onclick="oripaCopy(this)">'
+                            f'<span class="cc-label">コピー</span></button>'
+                            f'</div>'
+                            + (f'<p class="cc-memo">{memo}</p>' if memo else "")
+                            + '</div>')
+                    i += 1
+                i += 1; continue
             if in_note:
                 out.append("</div></div>" if in_note == "author" else "</div>")
                 in_note = None
@@ -172,6 +194,10 @@ def head_tags():
     if GSC_VERIFY:
         out.append(f'<meta name="google-site-verification" content="{GSC_VERIFY}">')
     if GA4_ID:
+        # ローカルプレビュー(localhost:8775)のヒットは送らない。gtag.js自体が
+        # ga-disable-<測定ID> を見て送信を止めるので、IP除外設定より確実。
+        out.append(f"<script>if(['localhost','127.0.0.1'].includes(location.hostname))"
+                   f"window['ga-disable-{GA4_ID}']=true;</script>")
         out.append(f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>')
         out.append("<script>window.dataLayer=window.dataLayer||[];"
                    "function gtag(){dataLayer.push(arguments);}"

@@ -89,6 +89,21 @@ th{background:var(--bg);color:var(--navy-d);white-space:nowrap}
 .ab-icon{width:64px;height:64px;border-radius:50%;border:2px solid var(--gold);flex:none}
 .ab-name{font-weight:800;color:var(--navy-d);margin-bottom:6px}
 
+/* 招待コード コピーボックス（LPのinvite-boxと同系） */
+.ccopy{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:18px 0}
+.cc-app{font-size:13px;font-weight:800;color:var(--navy-d);margin-bottom:8px}
+.cc-row{display:flex;gap:8px;align-items:stretch}
+.cc-code{flex:1;min-width:0;background:#fff;border:1.5px dashed var(--gold);border-radius:6px;
+  font-size:19px;font-weight:800;color:#3a2e10;letter-spacing:.12em;padding:11px 8px;
+  text-align:center;display:flex;align-items:center;justify-content:center;word-break:break-all}
+.cc-btn{flex:none;background:linear-gradient(180deg,#ffd86b,#e0a800);border:none;border-radius:6px;
+  padding:11px 18px;cursor:pointer;font-size:13px;font-weight:800;color:#3a2e10;white-space:nowrap;
+  font-family:inherit;transition:filter .15s,transform .1s}
+.cc-btn:hover{filter:brightness(1.06)}
+.cc-btn:active{transform:translateY(1px)}
+.cc-btn.copied{background:linear-gradient(180deg,#5dd166,#2bb04a);color:#fff}
+.cc-memo{font-size:12.5px;color:var(--sub);line-height:1.7;margin-top:8px}
+
 /* footer */
 .site-footer{background:var(--bg);border-top:1px solid var(--line);margin-top:30px;padding:22px 0 30px}
 .f-links{font-size:13px;margin-bottom:10px}

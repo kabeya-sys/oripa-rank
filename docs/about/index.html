@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>if(['localhost','127.0.0.1'].includes(location.hostname))window['ga-disable-G-8N4RWW1SGW']=true;</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8N4RWW1SGW"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8N4RWW1SGW');</script>
 <title>運営者情報｜オリパ情報局</title>
@@ -13,7 +14,7 @@
 <meta property="og:url" content="https://oripa-rank.jp/about/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="オリパ情報局">
-<link rel="stylesheet" href="/static/style.css?v=dd143e8c">
+<link rel="stylesheet" href="/static/style.css?v=a0487626">
 <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon-16.png">
 <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
@@ -60,5 +61,25 @@
     <p class="copy">© 2026 オリパ情報局</p>
   </div>
 </footer>
+<script>
+// 招待コードのコピー。コピー後そのままアプリへ直行する動線を copy_click で拾う
+function oripaCopy(btn){
+  var box=btn.closest('.ccopy'), code=box.querySelector('.cc-code').textContent.trim();
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(code).catch(function(){oripaCopyFallback(code)});
+  }else{oripaCopyFallback(code)}
+  var lbl=btn.querySelector('.cc-label'), orig=lbl.textContent;
+  btn.classList.add('copied'); lbl.textContent='コピーしました';
+  setTimeout(function(){lbl.textContent=orig;btn.classList.remove('copied')},1800);
+  if(typeof gtag==='function'){gtag('event','copy_click',{app:box.getAttribute('data-app'),code:code});}
+}
+function oripaCopyFallback(t){
+  var el=document.createElement('textarea');
+  el.value=t;el.style.position='fixed';el.style.opacity='0';
+  document.body.appendChild(el);el.focus();el.select();
+  try{document.execCommand('copy')}catch(e){}
+  document.body.removeChild(el);
+}
+</script>
 </body>
 </html>

@@ -40,5 +40,25 @@
     <p class="copy">© {{year}} {{site}}</p>
   </div>
 </footer>
+<script>
+// 招待コードのコピー。コピー後そのままアプリへ直行する動線を copy_click で拾う
+function oripaCopy(btn){
+  var box=btn.closest('.ccopy'), code=box.querySelector('.cc-code').textContent.trim();
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(code).catch(function(){oripaCopyFallback(code)});
+  }else{oripaCopyFallback(code)}
+  var lbl=btn.querySelector('.cc-label'), orig=lbl.textContent;
+  btn.classList.add('copied'); lbl.textContent='コピーしました';
+  setTimeout(function(){lbl.textContent=orig;btn.classList.remove('copied')},1800);
+  if(typeof gtag==='function'){gtag('event','copy_click',{app:box.getAttribute('data-app'),code:code});}
+}
+function oripaCopyFallback(t){
+  var el=document.createElement('textarea');
+  el.value=t;el.style.position='fixed';el.style.opacity='0';
+  document.body.appendChild(el);el.focus();el.select();
+  try{document.execCommand('copy')}catch(e){}
+  document.body.removeChild(el);
+}
+</script>
 </body>
 </html>

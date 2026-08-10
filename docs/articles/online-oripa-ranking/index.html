@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>if(['localhost','127.0.0.1'].includes(location.hostname))window['ga-disable-G-8N4RWW1SGW']=true;</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8N4RWW1SGW"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8N4RWW1SGW');</script>
 <title>オンラインオリパおすすめランキングTOP6【2026年8月】912万円課金した研究家が検証｜オリパ情報局</title>
@@ -13,7 +14,7 @@
 <meta property="og:url" content="https://oripa-rank.jp/articles/online-oripa-ranking/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="オリパ情報局">
-<link rel="stylesheet" href="/static/style.css?v=dd143e8c">
+<link rel="stylesheet" href="/static/style.css?v=a0487626">
 <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon-16.png">
 <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
@@ -176,6 +177,7 @@
 <div class="box box-author"><img class="ba-icon" src="/static/img/author.webp" alt="筆者ユウジ" width="96" height="96" loading="lazy"><div class="ba-bubble"><p class="ba-name">筆者ユウジ</p>
 <p>全アプリに共通するコツをひとつ。<strong>どのアプリも「新規登録直後の限定特典」が一番おいしい</strong>です。複数のアプリを無料分＋新規特典だけ順番に試して、自分に合う1〜2個に絞って課金する。これが912万円使った私がたどり着いた、いちばん損しない始め方です。</p>
 </div></div>
+<p>なお、登録時に招待コードを入れると無料で試せる分がさらに増えます。コードを入力できるのは新規登録のときだけなので、始める前に<a href="/articles/oripa-shoutai-code/">オリパ招待コード一覧</a>で6アプリ分のコードを確認しておいてください。</p>
 <h2 id="h10">よくある質問</h2>
 <h3>結局どれか1つだけ選ぶなら？</h3>
 <p>私ならオリくじです。0円で試せて、外しても逆転コインが残り、ジャンルの幅も最大。この記事の6アプリの中で「初心者が最初の1個に選んで後悔しにくい」総合力が一番高いと判断しています。</p>
@@ -215,5 +217,25 @@
     <p class="copy">© 2026 オリパ情報局</p>
   </div>
 </footer>
+<script>
+// 招待コードのコピー。コピー後そのままアプリへ直行する動線を copy_click で拾う
+function oripaCopy(btn){
+  var box=btn.closest('.ccopy'), code=box.querySelector('.cc-code').textContent.trim();
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(code).catch(function(){oripaCopyFallback(code)});
+  }else{oripaCopyFallback(code)}
+  var lbl=btn.querySelector('.cc-label'), orig=lbl.textContent;
+  btn.classList.add('copied'); lbl.textContent='コピーしました';
+  setTimeout(function(){lbl.textContent=orig;btn.classList.remove('copied')},1800);
+  if(typeof gtag==='function'){gtag('event','copy_click',{app:box.getAttribute('data-app'),code:code});}
+}
+function oripaCopyFallback(t){
+  var el=document.createElement('textarea');
+  el.value=t;el.style.position='fixed';el.style.opacity='0';
+  document.body.appendChild(el);el.focus();el.select();
+  try{document.execCommand('copy')}catch(e){}
+  document.body.removeChild(el);
+}
+</script>
 </body>
 </html>
