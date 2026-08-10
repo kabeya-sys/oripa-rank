@@ -3,6 +3,7 @@ title: オリパ招待コード一覧【2026年8月】6アプリの最新コー�
 description: オンラインオリパの招待コードを6アプリ分まとめました。24アプリに約912万円課金した研究家が、各アプリのコード・もらえる特典・入力場所・入れ忘れたときの対処まで実際の登録手順に沿って解説します。コードはボタンひとつでコピーできます。
 slug: oripa-shoutai-code
 date: 2026-08-10
+updated: 2026-08-10
 hero: /static/img/fv-shoutai-code.png
 draft: false
 ---

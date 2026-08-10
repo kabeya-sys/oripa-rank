@@ -89,6 +89,21 @@ th{background:var(--bg);color:var(--navy-d);white-space:nowrap}
 .ab-icon{width:64px;height:64px;border-radius:50%;border:2px solid var(--gold);flex:none}
 .ab-name{font-weight:800;color:var(--navy-d);margin-bottom:6px}
 
+/* パンくず */
+.crumb{font-size:12px;color:var(--sub);margin:14px 0 4px}
+.crumb a{color:var(--navy)}
+.crumb span{color:var(--sub)}
+
+/* 関連記事 */
+.related{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:32px 0 0}
+.rel-title{font-size:14px;font-weight:800;color:var(--navy-d);margin-bottom:8px}
+.related ul{list-style:none;margin:0}
+.related li{font-size:14px;line-height:1.7;padding:6px 0 6px 16px;position:relative;border-top:1px dashed var(--line)}
+.related li:first-child{border-top:none}
+.related li::before{content:"›";position:absolute;left:2px;color:var(--gold);font-weight:800}
+.related a{font-weight:700;text-decoration:none}
+.related a:hover{text-decoration:underline}
+
 /* 招待コード コピーボックス（LPのinvite-boxと同系） */
 .ccopy{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:18px 0}
 .cc-app{font-size:13px;font-weight:800;color:var(--navy-d);margin-bottom:8px}

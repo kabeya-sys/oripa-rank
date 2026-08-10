@@ -283,14 +283,34 @@ def build():
     os.makedirs(OUT)
     shutil.copytree(os.path.join(ROOT, "static"), os.path.join(OUT, "static"))
 
-    articles = []
+    # 1周目: 全記事のメタを集める（関連記事ブロックに他記事の情報が要るため2パス構成）
     adir = os.path.join(CONTENT, "articles")
+    parsed = []
     for fn in sorted(os.listdir(adir)):
         if not fn.endswith(".md"):
             continue
         meta, body_md = parse_front(open(os.path.join(adir, fn), encoding="utf-8").read())
         if meta.get("draft", "false") == "true":
             continue
+        parsed.append((meta, body_md))
+    by_slug = {m["slug"]: m for m, _ in parsed}
+
+    def related_block(meta):
+        """関連記事。frontmatterの related: で明示、なければ新しい順に他記事を最大3本。"""
+        names = [s.strip() for s in meta.get("related", "").split(",") if s.strip()]
+        picks = [by_slug[s] for s in names if s in by_slug and s != meta["slug"]]
+        if not picks:
+            others = [m for m, _ in parsed if m["slug"] != meta["slug"]]
+            picks = sorted(others, key=lambda m: m["date"], reverse=True)[:3]
+        if not picks:
+            return ""
+        li = "".join(
+            f'<li><a href="/articles/{m["slug"]}/">{html.escape(m["title"])}</a></li>'
+            for m in picks)
+        return f'<nav class="related"><p class="rel-title">あわせて読みたい</p><ul>{li}</ul></nav>'
+
+    articles = []
+    for meta, body_md in parsed:
         body_html, toc = md2html(body_md)
         path = f"/articles/{meta['slug']}/"
         toc_html = ""
@@ -303,10 +323,13 @@ def build():
         if "hero" in meta:
             fv = (f'<figure class="article-fv"><img src="{meta["hero"]}" '
                   f'alt="{html.escape(meta["title"])}"></figure>')
+        crumb = ('<nav class="crumb"><a href="/">ホーム</a> › '
+                 f'<span>{html.escape(meta["title"])}</span></nav>')
         art = render(tpl("article.html"),
                      title=html.escape(meta["title"]),
                      date=jp_date(meta["date"]), updated=jp_date(upd),
-                     fv=fv, toc=toc_html, content=body_html, site=SITE_NAME)
+                     fv=fv, toc=toc_html, content=body_html,
+                     crumb=crumb, related=related_block(meta), site=SITE_NAME)
         extra = article_jsonld(meta, path) + faq_jsonld(body_md)
         if "hero" in meta:
             extra = f'<meta property="og:image" content="{SITE}{meta["hero"]}">\n' + extra
