@@ -121,12 +121,18 @@ def md2html(md):
         if s.startswith("## "):
             close_lists()
             t = s[3:]
-            hid = f"h{len(toc)+1}"
-            toc.append((hid, t))
+            hid = f"h{sum(1 for lv, _, _ in toc if lv == 2) + 1}"
+            toc.append((2, hid, t))
             out.append(f'<h2 id="{hid}">{inline(t)}</h2>')
         elif s.startswith("### "):
             close_lists()
-            out.append(f"<h3>{inline(s[4:])}</h3>")
+            t = s[4:]
+            # 直近のH2に紐づく連番でidを振る（h3-2-1 = 2番目のH2配下の1本目）
+            parent = sum(1 for lv, _, _ in toc if lv == 2) or 1
+            n = sum(1 for lv, i, _ in toc if lv == 3 and i.startswith(f"h3-{parent}-")) + 1
+            hid = f"h3-{parent}-{n}"
+            toc.append((3, hid, t))
+            out.append(f'<h3 id="{hid}">{inline(t)}</h3>')
         elif s.startswith("|"):
             cells = [c.strip() for c in s.strip("|").split("|")]
             if re.match(r"^[\s|:-]+$", s):
@@ -259,7 +265,10 @@ def jstr(s):
 
 def faq_jsonld(body_md):
     """「## よくある質問」配下の「### 質問」＋回答段落から FAQPage JSON-LD を生成。"""
-    m = re.search(r"^## よくある質問\n(.*?)(?=^## |\Z)", body_md, re.S | re.M)
+    # 見出しは「〜のよくある質問」のように主題語が付くので部分一致で拾う
+    # 見出しは「〜のよくある質問」のように主題語が付くので部分一致で拾う。
+    # re.S下では . が改行にもマッチするため、見出し行の一致は [^\n] を使う
+    m = re.search(r"^## [^\n]*よくある質問[^\n]*\n(.*?)(?=^## |\Z)", body_md, re.S | re.M)
     if not m:
         return ""
     pairs = re.findall(r"^### (.+?)\n(.*?)(?=^### |\Z)", m.group(1), re.S | re.M)
@@ -314,10 +323,25 @@ def build():
         body_html, toc = md2html(body_md)
         path = f"/articles/{meta['slug']}/"
         toc_html = ""
-        if len(toc) >= 3:
-            toc_html = ('<nav class="toc"><p class="toc-title">目次</p><ol>'
-                        + "".join(f'<li><a href="#{hid}">{html.escape(t)}</a></li>' for hid, t in toc)
-                        + "</ol></nav>")
+        if sum(1 for lv, _, _ in toc if lv == 2) >= 3:
+            items, open_sub = [], False
+            for lv, hid, t in toc:
+                link = f'<a href="#{hid}">{html.escape(t)}</a>'
+                if lv == 2:
+                    if open_sub:
+                        items.append("</ul></li>"); open_sub = False
+                    items.append(f"<li>{link}")
+                    items.append("__CLOSE__")
+                else:
+                    if not open_sub:
+                        if items and items[-1] == "__CLOSE__":
+                            items.pop()
+                        items.append("<ul>"); open_sub = True
+                    items.append(f"<li>{link}</li>")
+            if open_sub:
+                items.append("</ul></li>")
+            body = "".join(x if x != "__CLOSE__" else "</li>" for x in items)
+            toc_html = f'<nav class="toc"><p class="toc-title">目次</p><ol>{body}</ol></nav>'
         upd = meta.get("updated", meta["date"])
         fv = ""
         if "hero" in meta:
