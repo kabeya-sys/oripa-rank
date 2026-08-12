@@ -83,6 +83,21 @@ def md2html(md):
                                    f'<span class="c-catch">{inline(body[0])}</span>'
                                    f'<span class="c-btn">{html.escape(m.group(1))}</span></a>')
                 i += 1; continue
+            if tag == "gallery":
+                # :::gallery 内の各行「画像パス|alt」をグリッド表示にする（当選報告の並べ置き用）
+                i += 1
+                cells = []
+                while i < len(lines) and lines[i].strip() != ":::":
+                    row = lines[i].strip()
+                    if row:
+                        parts = [p.strip() for p in row.split("|")]
+                        src = html.escape(parts[0])
+                        alt = html.escape(parts[1]) if len(parts) > 1 else ""
+                        cells.append(f'<figure><img src="{src}" alt="{alt}" loading="lazy"></figure>')
+                    i += 1
+                if cells:
+                    out.append('<div class="gallery">' + "".join(cells) + "</div>")
+                i += 1; continue
             if tag == "code":
                 # :::code 内の各行「アプリ名|コード|補足(任意)」をコピーボタン付きボックスに変換
                 i += 1
